@@ -31,10 +31,11 @@ public class CalendarResponse {
     public void addColorStage(ColorStageResponse colorStage){
         colorStages.add(colorStage);
     }
-    public void addTodayColorStage(Integer carrot){
-        if(0<carrot&carrot<=4) todayColorStage=1;
-        if(4<carrot&carrot<=8) todayColorStage=2;
-        if(8<carrot&carrot<=12) todayColorStage=3;
-        if(12<carrot) todayColorStage=4;
-    }
+    public void updateTodayColorStage(Integer carrot) {
+        if (carrot == 0) todayColorStage = 0;
+        else if (carrot <= 4) todayColorStage = 1;
+        else if (carrot <= 8) todayColorStage = 2;
+        else if (carrot <= 12) todayColorStage = 3;
+        else todayColorStage = 4;
+        }
 }

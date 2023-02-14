@@ -25,46 +25,40 @@ public class CalendarService {
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
 
-    public CalendarResponse find(String username, String date) {
-        Member member = memberRepository.findByUsername(username).orElseThrow(
-                () -> new DanggeunPlannerException(NOT_FOUND_MEMBER));
+    public CalendarResponse findCalendar(String username, String date) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new DanggeunPlannerException(NOT_FOUND_MEMBER));
 
-        Optional<Calendar> calendar = calendarRepository.findByMemberAndDate(member, date);
+        Optional<Calendar> calendarOptional = calendarRepository.findByMemberAndDate(member, date);
 
-        if(calendar.isPresent()) {
-            CalendarResponse response = new CalendarResponse(calendar.get());
-            ColorStageResponse colorStage = new ColorStageResponse();
-
-            addDateToColorStage(calendar.get(), response, colorStage);
-            response.addColorStage(colorStage);
-
+        if (calendarOptional.isPresent()) {
+            Calendar calendar = calendarOptional.get();
+            CalendarResponse response = new CalendarResponse(calendar);
+            updateColorStage(calendar, response);
             return response;
         }
 
         return new CalendarResponse(member);
     }
 
-
-    //오늘날짜 삭제
-    private void addDateToColorStage(Calendar calendar, CalendarResponse response, ColorStageResponse colorStage){
-        for (Planner planner : calendar.getPlanners()) {
-            Integer carrot = planner.getCarrot();
+    private void updateColorStage(Calendar calendar, CalendarResponse response) {
+        ColorStageResponse colorStage = new ColorStageResponse();
+        calendar.getPlanners().forEach(planner -> {
+            int carrot = planner.getCarrot();
             String date = planner.getDate();
-            if(planner.getDate().equals(TimeConverter.convertToPlannerDateForm(LocalDateTime.now()))){
-              response.addTodayColorStage(carrot);
-            } else if ((0 < carrot && carrot <= 4)) {
-                colorStage.addDateToColorStage1(date);
-            } else if ((4 < carrot && carrot <= 8)) {
-                colorStage.addDateToColorStage2(date);
-            } else if ((8 < carrot && carrot <= 12)) {
-                colorStage.addDateToColorStage3(date);
-            } else if ((12 < carrot)) {
-                colorStage.addDateToColorStage4(date);
-            }
-        }
-    }
-}
 
+            if (date.equals(TimeConverter.convertToPlannerDateForm(LocalDateTime.now()))) {
+                //todayColorStage는 CalendarResponse에 int로 존재한다.
+                response.updateTodayColorStage(carrot);
+            } else {
+                //오늘날짜를 제외한 ColorStage는 CalendarResponse에 List<ColorStage>로 존재한다.
+                colorStage.addDateToColorStage(date, carrot);
+            }
+        });
+        response.addColorStage(colorStage);
+    }
+
+}
 
 
 

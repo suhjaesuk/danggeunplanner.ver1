@@ -44,7 +44,7 @@ public class Calendar {
         this.carrot=0;
     }
 
-    public void addCarrot(){
+    public void harvestCarrot(){
         this.carrot++;
     }
 }

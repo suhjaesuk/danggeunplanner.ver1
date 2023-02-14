@@ -12,16 +12,15 @@ public class ColorStageResponse {
     private final List<String> colorStage3=new ArrayList<>();
     private final List<String> colorStage4=new ArrayList<>();
 
-    public void addDateToColorStage1(String date){
-        colorStage1.add(date);
-    }
-    public void addDateToColorStage2(String date){
-        colorStage2.add(date);
-    }
-    public void addDateToColorStage3(String date){
-        colorStage3.add(date);
-    }
-    public void addDateToColorStage4(String date){
-        colorStage4.add(date);
+    public void addDateToColorStage(String date, int carrot) {
+        if (carrot <= 4) {
+            colorStage1.add(date);
+        } else if (carrot <= 8) {
+            colorStage2.add(date);
+        } else if (carrot <= 12) {
+            colorStage3.add(date);
+        } else {
+            colorStage4.add(date);
+        }
     }
 }
