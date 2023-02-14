@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static com.finalteam4.danggeunplanner.common.exception.ErrorCode.NOT_FOUND_MEMBER;
@@ -31,34 +33,26 @@ public class CalendarService {
 
         Optional<Calendar> calendarOptional = calendarRepository.findByMemberAndDate(member, date);
 
-        if (calendarOptional.isPresent()) {
-            Calendar calendar = calendarOptional.get();
-            CalendarResponse response = new CalendarResponse(calendar);
-            updateColorStage(calendar, response);
-            return response;
-        }
+        CalendarResponse response = calendarOptional.map(CalendarResponse::new)
+                .orElseGet(() -> new CalendarResponse(member));
 
-        return new CalendarResponse(member);
+        updateColorStage(calendarOptional.map(Calendar::getPlanners).orElse(Collections.emptyList()), response);
+
+        return response;
     }
 
-    private void updateColorStage(Calendar calendar, CalendarResponse response) {
+    private void updateColorStage(List<Planner> planners, CalendarResponse response) {
         ColorStageResponse colorStage = new ColorStageResponse();
-        calendar.getPlanners().forEach(planner -> {
-            int carrot = planner.getCarrot();
-            String date = planner.getDate();
 
-            if (date.equals(TimeConverter.convertToPlannerDateForm(LocalDateTime.now()))) {
-                //todayColorStage는 CalendarResponse에 int로 존재한다.
-                response.updateTodayColorStage(carrot);
-            } else {
-                //오늘날짜를 제외한 ColorStage는 CalendarResponse에 List<ColorStage>로 존재한다.
-                colorStage.addDateToColorStage(date, carrot);
-            }
-        });
+        planners.stream()
+                .filter(planner -> planner.isDifferentDate(LocalDateTime.now()))
+                .forEach(planner -> colorStage.updateColorStage(planner.getDate(), planner.getCarrot()));
+
         response.addColorStage(colorStage);
+
+        planners.stream()
+                .filter(planner -> planner.isSameDate(LocalDateTime.now()))
+                .findFirst()
+                .ifPresent(planner -> response.updateTodayColorStage(planner.getCarrot()));
     }
-
 }
-
-
-

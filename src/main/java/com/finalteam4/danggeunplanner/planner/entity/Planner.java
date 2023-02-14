@@ -1,5 +1,6 @@
 package com.finalteam4.danggeunplanner.planner.entity;
 
+import com.finalteam4.danggeunplanner.TimeConverter;
 import com.finalteam4.danggeunplanner.calendar.entity.Calendar;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.timer.entity.Timer;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,5 +70,13 @@ public class Planner {
 
     public void harvestCarrot(){
         this.carrot++;
+    }
+
+    public boolean isSameDate(LocalDateTime localDateTime){
+        return date.equals(TimeConverter.convertToPlannerDateForm(localDateTime));
+    }
+
+    public boolean isDifferentDate(LocalDateTime localDateTime){
+        return !date.equals(TimeConverter.convertToPlannerDateForm(localDateTime));
     }
 }
