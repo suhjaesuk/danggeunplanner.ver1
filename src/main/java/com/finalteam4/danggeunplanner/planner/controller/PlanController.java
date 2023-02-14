@@ -26,20 +26,20 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<ResponseMessage<PlanResponse>> create(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
-        PlanResponse response = planService.create(userDetails.getMember(), request);
+    public ResponseEntity<ResponseMessage<PlanResponse>> createPlan(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
+        PlanResponse response = planService.createPlan(userDetails.getMember(), request);
         return new ResponseEntity<>(new ResponseMessage<>("계획 등록 성공", response), HttpStatus.CREATED);
     }
 
     @PutMapping("/{planId}")
-    public ResponseEntity<ResponseMessage<PlanResponse>> update(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
-        PlanResponse response = planService.update(userDetails.getMember(), planId,request);
+    public ResponseEntity<ResponseMessage<PlanResponse>> updatePlan(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
+        PlanResponse response = planService.updatePlan(userDetails.getMember(), planId,request);
         return new ResponseEntity<>(new ResponseMessage<>("계획 변경 성공", response), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{planId}")
-    public ResponseEntity<ResponseMessage<PlanResponse>> delete(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId){
-        PlanResponse response = planService.delete(userDetails.getMember(), planId);
+    public ResponseEntity<ResponseMessage<PlanResponse>> deletePlan(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId){
+        PlanResponse response = planService.deletePlan(userDetails.getMember(), planId);
         return new ResponseEntity<>(new ResponseMessage<>("계획 삭제 성공", response), HttpStatus.OK);
     }
 }

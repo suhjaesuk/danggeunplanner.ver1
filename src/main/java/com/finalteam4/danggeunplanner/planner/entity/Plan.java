@@ -1,5 +1,6 @@
 package com.finalteam4.danggeunplanner.planner.entity;
 
+import com.finalteam4.danggeunplanner.TimeConverter;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -53,5 +54,9 @@ public class Plan {
         this.startTime = startTime;
         this.endTime = endTime;
         this.content = content;
+    }
+
+    public boolean isSameDate(LocalDateTime startTime, LocalDateTime endTime){
+        return TimeConverter.convertToPlannerDateForm(startTime).equals(TimeConverter.convertToPlannerDateForm(endTime));
     }
 }
