@@ -102,7 +102,7 @@ public class TimerService {
         List<Timer> timers = timerRepository.findAllByMember(member);
 
         for (Timer timer : timers) {
-            if (!timer.getIsFinish()) {
+            if (timer.isRunning()) {
                 timerRepository.delete(timer);
             }
         }

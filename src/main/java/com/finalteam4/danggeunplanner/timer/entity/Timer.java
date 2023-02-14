@@ -60,4 +60,8 @@ public class Timer {
     public void update(String content){
         this.content=content;
     }
+
+    public boolean isRunning(){
+        return !isFinish;
+    }
 }
