@@ -56,7 +56,12 @@ public class Plan {
         this.content = content;
     }
 
-    public boolean isSameDate(LocalDateTime startTime, LocalDateTime endTime){
+    public boolean isStartTimeAndEndTimeSameDate(){
         return TimeConverter.convertToPlannerDateForm(startTime).equals(TimeConverter.convertToPlannerDateForm(endTime));
+    }
+
+    public boolean isEndTimeLessThanStartTime(){
+        return endTime.isBefore(startTime) ||
+                endTime.isEqual(startTime);
     }
 }

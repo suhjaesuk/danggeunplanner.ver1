@@ -88,14 +88,13 @@ public class PlanService {
     }
 
     public void validateDate(Plan plan) {
-        if(plan.isSameDate(plan.getStartTime(),plan.getEndTime())){
+        if(plan.isStartTimeAndEndTimeSameDate()){
             throw new DanggeunPlannerException(DIFFERENT_PLANNING_DATE);
         }
     }
 
     public void validateTime(Plan plan) {
-        if (plan.getEndTime().isBefore(plan.getStartTime()) ||
-                plan.getEndTime().isEqual(plan.getStartTime())) {
+        if (plan.isEndTimeLessThanStartTime()) {
             throw new DanggeunPlannerException(NOT_VALID_PLANNING_TIME);
         }
     }
