@@ -66,8 +66,8 @@ public class TimerService {
         timer.confirmPlanner(planner);
         planner.confirmCalendar(calendar);
 
-        planner.addCarrot();
-        calendar.addCarrot();
+        planner.harvestCarrot();
+        calendar.harvestCarrot();
 
         return new TimerResponse(timer);
     }
