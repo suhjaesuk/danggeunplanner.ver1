@@ -1,4 +1,4 @@
-package com.finalteam4.danggeunplanner;
+package com.finalteam4.danggeunplanner.common.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

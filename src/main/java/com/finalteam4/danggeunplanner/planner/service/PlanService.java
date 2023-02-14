@@ -1,6 +1,5 @@
 package com.finalteam4.danggeunplanner.planner.service;
 
-import com.finalteam4.danggeunplanner.TimeConverter;
 import com.finalteam4.danggeunplanner.common.exception.DanggeunPlannerException;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.member.service.MemberValidator;
@@ -13,8 +12,6 @@ import com.finalteam4.danggeunplanner.planner.repository.PlannerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 
 import static com.finalteam4.danggeunplanner.common.exception.ErrorCode.DIFFERENT_PLANNING_DATE;
 import static com.finalteam4.danggeunplanner.common.exception.ErrorCode.NOT_FOUND_PLAN;

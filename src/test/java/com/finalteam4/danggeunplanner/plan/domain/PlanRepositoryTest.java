@@ -1,6 +1,6 @@
 package com.finalteam4.danggeunplanner.plan.domain;
 
-import com.finalteam4.danggeunplanner.TimeConverter;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.member.repository.MemberRepository;
 import com.finalteam4.danggeunplanner.planner.entity.Plan;

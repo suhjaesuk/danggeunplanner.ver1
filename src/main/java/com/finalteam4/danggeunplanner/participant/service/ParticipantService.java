@@ -1,6 +1,6 @@
 package com.finalteam4.danggeunplanner.participant.service;
 
-import com.finalteam4.danggeunplanner.TimeConverter;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.common.exception.DanggeunPlannerException;
 import com.finalteam4.danggeunplanner.group.entity.Group;
 import com.finalteam4.danggeunplanner.group.repository.GroupRepository;

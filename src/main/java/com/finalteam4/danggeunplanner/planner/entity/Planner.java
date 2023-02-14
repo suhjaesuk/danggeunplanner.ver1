@@ -1,6 +1,6 @@
 package com.finalteam4.danggeunplanner.planner.entity;
 
-import com.finalteam4.danggeunplanner.TimeConverter;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.calendar.entity.Calendar;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.timer.entity.Timer;

@@ -1,6 +1,6 @@
 package com.finalteam4.danggeunplanner.planner.dto.response;
 
-import com.finalteam4.danggeunplanner.TimeConverter;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.planner.entity.Plan;
 import lombok.Getter;
 
