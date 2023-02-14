@@ -12,7 +12,7 @@ public class ColorStageResponse {
     private final List<String> colorStage3=new ArrayList<>();
     private final List<String> colorStage4=new ArrayList<>();
 
-    public void addDateToColorStage(String date, int carrot) {
+    public void updateColorStage(String date, int carrot) {
         if (carrot <= 4) {
             colorStage1.add(date);
         } else if (carrot <= 8) {
