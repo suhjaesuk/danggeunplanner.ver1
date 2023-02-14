@@ -54,8 +54,7 @@ public class TimerService {
         timer.finish(request.getEndTime(), request.getCount());
         deleteInactiveTimer(member);
 
-        createPlanner(member, timer);
-        createCalendar(member, timer);
+        createPlannerAndCalendarIfNotExists(member, timer);
 
         Planner planner = plannerRepository.findByMemberAndDate(member, TimeConverter.convertToPlannerDateForm(timer.getEndTime())).orElseThrow(
                 () -> new DanggeunPlannerException(NOT_FOUND_PLANNER)
@@ -83,24 +82,21 @@ public class TimerService {
         return new TimerResponse(timer);
     }
 
+    private void createPlannerAndCalendarIfNotExists(Member member, Timer timer) {
+        String plannerDate = TimeConverter.convertToPlannerDateForm(timer.getEndTime());
+        String calendarDate = TimeConverter.convertToCalendarDateForm(timer.getEndTime());
 
-    private void createPlanner(Member member, Timer timer) {
-        String date = TimeConverter.convertToPlannerDateForm(timer.getEndTime());
-
-        if (!plannerRepository.existsByMemberAndDate(member, date)) {
-            Planner planner = new Planner(member, date);
+        if (!plannerRepository.existsByMemberAndDate(member, plannerDate)) {
+            Planner planner = new Planner(member, plannerDate);
             plannerRepository.save(planner);
         }
-    }
 
-    private void createCalendar(Member member, Timer timer) {
-        String date = TimeConverter.convertToCalendarDateForm(timer.getEndTime());
-
-        if (!calendarRepository.existsByMemberAndDate(member, date)) {
-            Calendar calendar = new Calendar(member, date);
+        if (!calendarRepository.existsByMemberAndDate(member, calendarDate)) {
+            Calendar calendar = new Calendar(member, calendarDate);
             calendarRepository.save(calendar);
         }
     }
+
 
     private void deleteInactiveTimer(Member member) {
         List<Timer> timers = timerRepository.findAllByMember(member);
