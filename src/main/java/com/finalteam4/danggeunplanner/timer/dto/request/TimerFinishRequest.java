@@ -10,10 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 public class TimerFinishRequest {
 
-    @NotNull(message = "종료 시간은 Null이 될 수 없습니다.", groups = ValidationGroups.FirstNotNullGroup.class)
+    @NotNull(message = "종료 시간을 입력해주세요.", groups = ValidationGroups.FirstNotNullGroup.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
-    @NotNull(message = "연속 개수는 Null이 될 수 없습니다.", groups = ValidationGroups.SecondNotNullGroup.class)
+    @NotNull(message = "연속 횟수를 알려주세요.", groups = ValidationGroups.SecondNotNullGroup.class)
+    //클라이언트와 continuousCount로 바꾸자고 말맞춰야함.
     private Integer count;
+
 }

@@ -13,14 +13,10 @@ public class ColorStageResponse {
     private final List<String> colorStage4=new ArrayList<>();
 
     public void updateColorStage(String date, int carrot) {
-        if (carrot <= 4) {
-            colorStage1.add(date);
-        } else if (carrot <= 8) {
-            colorStage2.add(date);
-        } else if (carrot <= 12) {
-            colorStage3.add(date);
-        } else {
-            colorStage4.add(date);
-        }
+        if (carrot <= 4) colorStage1.add(date);
+        else if (carrot <= 8) colorStage2.add(date);
+        else if (carrot <= 12) colorStage3.add(date);
+        else colorStage4.add(date);
     }
 }
+

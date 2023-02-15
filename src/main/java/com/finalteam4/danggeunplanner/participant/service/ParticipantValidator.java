@@ -24,6 +24,7 @@ public class ParticipantValidator {
             throw new DanggeunPlannerException(NOT_DELETE_PARTICIPANT);
         }
     }
+
     public void validateAccess(Member member, Group group) {
         if (!participantRepository.existsByMemberAndGroup(member, group)){
             throw new DanggeunPlannerException(NOT_VALID_ACCESS);

@@ -32,14 +32,20 @@ public class PlanController {
     }
 
     @PutMapping("/{planId}")
-    public ResponseEntity<ResponseMessage<PlanResponse>> updatePlan(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
-        PlanResponse response = planService.updatePlan(userDetails.getMember(), planId,request);
-        return new ResponseEntity<>(new ResponseMessage<>("계획 변경 성공", response), HttpStatus.ACCEPTED);
+    public ResponseEntity<ResponseMessage<PlanResponse>> updatePlanContent(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId, @Validated(ValidationSequence.class) @RequestBody PlanRequest request){
+        PlanResponse response = planService.updatePlanContent(userDetails.getMember(), planId,request);
+        return new ResponseEntity<>(new ResponseMessage<>("계획 내용 변경 성공", response), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{planId}")
     public ResponseEntity<ResponseMessage<PlanResponse>> deletePlan(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId){
         PlanResponse response = planService.deletePlan(userDetails.getMember(), planId);
         return new ResponseEntity<>(new ResponseMessage<>("계획 삭제 성공", response), HttpStatus.OK);
+    }
+
+    @PutMapping("/{planId}/done")
+    public ResponseEntity<ResponseMessage<PlanResponse>> updatePlanDoneStatus(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long planId){
+        PlanResponse response = planService.updatePlanDoneStatus(userDetails.getMember(), planId);
+        return new ResponseEntity<>(new ResponseMessage<>("계획 완료 상태 변경 성공", response), HttpStatus.ACCEPTED);
     }
 }

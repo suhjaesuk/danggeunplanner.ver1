@@ -27,19 +27,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class TimerController {
     private final TimerService timerService;
     @PostMapping
-    ResponseEntity<ResponseMessage<TimerStartResponse>> start(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated(ValidationSequence.class) @RequestBody TimerStartRequest request ){
-        TimerStartResponse response = timerService.start(userDetails.getMember(), request);
+    ResponseEntity<ResponseMessage<TimerStartResponse>> startTimer(@AuthenticationPrincipal UserDetailsImpl userDetails, @Validated(ValidationSequence.class) @RequestBody TimerStartRequest request ){
+        TimerStartResponse response = timerService.startTimer(userDetails.getMember(), request);
         return new ResponseEntity<>(new ResponseMessage<>("타이머 시작", response),HttpStatus.CREATED);
     }
     @PutMapping("/{timerId}")
-    ResponseEntity<ResponseMessage<TimerResponse>> finish(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long timerId, @Validated(ValidationSequence.class) @RequestBody TimerFinishRequest request){
-        TimerResponse response = timerService.finish(userDetails.getMember(), timerId, request);
+    ResponseEntity<ResponseMessage<TimerResponse>> finishTimer(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long timerId, @Validated(ValidationSequence.class) @RequestBody TimerFinishRequest request){
+        TimerResponse response = timerService.finishTimer(userDetails.getMember(), timerId, request);
         return new ResponseEntity<>(new ResponseMessage<>("타이머 완료",response), HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{timerId}/content")
-    ResponseEntity<ResponseMessage<TimerResponse>> update(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long timerId, @Validated(ValidationSequence.class) @RequestBody TimerUpdateRequest request){
-        TimerResponse response = timerService.update(userDetails.getMember(), timerId, request);
+    ResponseEntity<ResponseMessage<TimerResponse>> updateTimer(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long timerId, @Validated(ValidationSequence.class) @RequestBody TimerUpdateRequest request){
+        TimerResponse response = timerService.updateTimer(userDetails.getMember(), timerId, request);
         return new ResponseEntity<>(new ResponseMessage<>("타이머 내용 변경",response), HttpStatus.ACCEPTED);
     }
 

@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
     boolean existsByMemberAndDate(Member member, String date);
     Optional<Calendar> findByMemberAndDate(Member member, String date);
-    List<Calendar> findTop100ByDateOrderByCarrotDesc(String date);
 }

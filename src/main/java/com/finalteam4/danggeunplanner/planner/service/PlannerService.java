@@ -25,28 +25,38 @@ public class PlannerService {
     private final PlannerRepository plannerRepository;
     private final MemberRepository memberRepository;
 
-    public PlannerResponse getPlanner(Member member, String username, String date) {
-        return getPlannerResponse(member, username, date, true, true);
+    public PlannerResponse getPlanner(Member loggedInMember, String searchedUsername, String date) {
+        return getPlannerResponse(loggedInMember, searchedUsername, date, true, true, true);
     }
 
-    public PlannerResponse getPlan(Member member, String username, String date) {
-        return getPlannerResponse(member, username, date, true, false);
+    public PlannerResponse getPlan(Member loggedInMember, String searchedUsername, String date) {
+        return getPlannerResponse(loggedInMember, searchedUsername, date, true, true, false);
     }
 
-    public PlannerResponse getTimer(Member member, String username, String date) {
-        return getPlannerResponse(member, username, date, false, true);
+    public PlannerResponse getFinishedPlan(Member loggedInMember, String searchedUsername, String date) {
+        return getPlannerResponse(loggedInMember, searchedUsername, date, false, true, false);
     }
 
-    private PlannerResponse getPlannerResponse(Member member, String username, String date, boolean includePlans, boolean includeTimers) {
-        Member findMember = memberRepository.findByUsername(username)
+    public PlannerResponse getTimer(Member loggedInMember, String searchedUsername, String date) {
+        return getPlannerResponse(loggedInMember, searchedUsername, date, false, false, true);
+    }
+
+    private PlannerResponse getPlannerResponse(Member loggedInMember, String searchedUsername, String date, boolean includeProgressedPlans,  boolean includeFinishedPlans, boolean includeTimers) {
+        Member searchedMember = memberRepository.findByUsername(searchedUsername)
                 .orElseThrow(() -> new DanggeunPlannerException(NOT_FOUND_MEMBER));
 
-        return plannerRepository.findByMemberAndDate(findMember, date)
+        return plannerRepository.findByMemberAndDate(searchedMember, date)
                 .map(planner -> {
-                    PlannerResponse response = new PlannerResponse(planner, member);
-                    if (includePlans) {
+                    PlannerResponse response = new PlannerResponse(planner, loggedInMember);
+                    if (includeProgressedPlans) {
                         for (Plan plan : planner.getPlans()) {
-                            response.addPlan(new PlanResponse(plan));
+                            if(plan.isProgressed()) response.addPlan(new PlanResponse(plan));
+                        }
+                    }
+                    if (includeFinishedPlans) {
+                        for (Plan plan : planner.getPlans()) {
+                            if(plan.isFinished()) response.addPlan(new PlanResponse(plan));
+
                         }
                     }
                     if (includeTimers) {
@@ -56,6 +66,6 @@ public class PlannerService {
                     }
                     return response;
                 })
-                .orElse(new PlannerResponse(findMember, member));
+                .orElse(new PlannerResponse(searchedMember, loggedInMember));
     }
 }

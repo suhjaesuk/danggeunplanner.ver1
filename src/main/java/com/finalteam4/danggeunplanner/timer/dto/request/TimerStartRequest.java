@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class TimerStartRequest {
-    @NotNull(message = "시작 시간은 Null이 될 수 없습니다.", groups = ValidationGroups.FirstNotNullGroup.class)
+    @NotNull(message = "시작 시간을 입력해주세요.", groups = ValidationGroups.FirstNotNullGroup.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
@@ -20,7 +20,7 @@ public class TimerStartRequest {
                 .member(member)
                 .startTime(startTime)
                 .content("당근 수확!\uD83D\uDE0A")
-                .count(0)
+                .continuousCount(0)
                 .isFinish(false)
                 .build();
     }

@@ -37,6 +37,8 @@ public class Plan {
     private String date;
     private String content;
 
+    private Boolean isFinished;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
@@ -50,7 +52,7 @@ public class Plan {
         planner.addPlan(this);
     }
 
-    public void update(LocalDateTime startTime, LocalDateTime endTime, String content){
+    public void updateContent(LocalDateTime startTime, LocalDateTime endTime, String content){
         this.startTime = startTime;
         this.endTime = endTime;
         this.content = content;
@@ -63,5 +65,17 @@ public class Plan {
     public boolean isEndTimeLessThanStartTime(){
         return endTime.isBefore(startTime) ||
                 endTime.isEqual(startTime);
+    }
+
+    public void updateDoneStatus(){
+        this.isFinished = !isFinished;
+    }
+
+    public boolean isFinished(){
+        return isFinished.equals(true);
+    }
+
+    public boolean isProgressed(){
+        return isFinished.equals(false);
     }
 }

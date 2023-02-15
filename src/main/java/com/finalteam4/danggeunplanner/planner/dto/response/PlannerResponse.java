@@ -17,16 +17,18 @@ public class PlannerResponse {
     private final Integer carrot;
     private final List<Object> contents = new ArrayList<>();
 
-    public PlannerResponse(Member other, Member member) {
-        this.isOwner = other.getUsername().equals(member.getUsername());
-        this.isPlannerOpened = other.isPlannerOpened();
-        this.username = other.getUsername();
-        this.profileImage = other.getProfileImage();
+    //검색한 유저의 플래너가 DB에 없을 때 응답
+    public PlannerResponse(Member searchedMember, Member loggedInMember) {
+        this.isOwner = searchedMember.getUsername().equals(loggedInMember.getUsername());
+        this.isPlannerOpened = searchedMember.isPlannerOpened();
+        this.username = searchedMember.getUsername();
+        this.profileImage = searchedMember.getProfileImage();
         this.carrot = 0;
     }
 
-    public PlannerResponse(Planner planner, Member member) {
-        this.isOwner = planner.getMember().getUsername().equals(member.getUsername());
+    //검색한 유저의 플래너가 DB에 있을 때 응답
+    public PlannerResponse(Planner planner, Member loggedInMember) {
+        this.isOwner = planner.getMember().getUsername().equals(loggedInMember.getUsername());
         this.isPlannerOpened = planner.getMember().isPlannerOpened();
         this.username = planner.getMember().getUsername();
         this.profileImage = planner.getMember().getProfileImage();

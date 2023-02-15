@@ -28,7 +28,8 @@ public class Timer {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String content;
-    private Integer count;
+
+    private Integer continuousCount;
     private Boolean isFinish;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -43,17 +44,17 @@ public class Timer {
     }
 
     @Builder
-    public Timer(Member member, LocalDateTime startTime, String content, Integer count, Boolean isFinish){
+    public Timer(Member member, LocalDateTime startTime, String content, Integer continuousCount, Boolean isFinish){
         this.member = member;
         this.startTime = startTime;
         this.content = content;
-        this.count = count;
+        this.continuousCount = continuousCount;
         this.isFinish=isFinish;
     }
 
-    public void finish(LocalDateTime endTime, Integer count){
+    public void finish(LocalDateTime endTime, Integer continuousCount){
         this.endTime=endTime;
-        this.count=count;
+        this.continuousCount=continuousCount;
         this.isFinish=true;
     }
 
@@ -62,6 +63,6 @@ public class Timer {
     }
 
     public boolean isRunning(){
-        return !isFinish;
+        return isFinish.equals(false);
     }
 }

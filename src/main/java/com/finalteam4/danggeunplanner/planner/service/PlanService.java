@@ -27,16 +27,16 @@ public class PlanService {
     private final MemberValidator memberValidator;
 
     @Transactional
-    public PlanResponse createPlan(Member member, PlanRequest request) {
-        Plan plan = request.toPlan(member);
+    public PlanResponse createPlan(Member loggedInMember, PlanRequest request) {
+        Plan plan = request.toPlan(loggedInMember);
 
         validateDate(plan);
         validateTime(plan);
 
         planRepository.save(plan);
 
-        createPlanner(member, plan);
-        Planner planner = findPlannerForMemberAndDate(member, plan.getDate());
+        createPlanner(loggedInMember, plan);
+        Planner planner = findPlannerForMemberAndDate(loggedInMember, plan.getDate());
 
         plan.confirmPlanner(planner);
 
@@ -44,11 +44,11 @@ public class PlanService {
     }
 
     @Transactional
-    public PlanResponse updatePlan(Member member, Long planId, PlanRequest request) {
+    public PlanResponse updatePlanContent(Member loggedInMember, Long planId, PlanRequest request) {
         Plan plan = findPlanById(planId);
-        memberValidator.validateAccess(member, plan.getMember());
+        memberValidator.validateAccess(loggedInMember, plan.getMember());
 
-        plan.update(request.getStartTime(), request.getEndTime(), request.getContent());
+        plan.updateContent(request.getStartTime(), request.getEndTime(), request.getContent());
 
         validateTime(plan);
         validateDate(plan);
@@ -57,20 +57,28 @@ public class PlanService {
     }
 
     @Transactional
-    public PlanResponse deletePlan(Member member, Long planId) {
+    public PlanResponse deletePlan(Member loggedInMember, Long planId) {
         Plan plan = findPlanById(planId);
-        memberValidator.validateAccess(member, plan.getMember());
+        memberValidator.validateAccess(loggedInMember, plan.getMember());
 
         planRepository.delete(plan);
         return new PlanResponse(plan);
     }
+    @Transactional
+    public PlanResponse updatePlanDoneStatus(Member loggedInMember, Long planId) {
+        Plan plan = findPlanById(planId);
+        memberValidator.validateAccess(loggedInMember, plan.getMember());
 
-    private void createPlanner(Member member, Plan plan) {
-        if (plannerRepository.existsByMemberAndDate(member, plan.getDate())) {
+        plan.updateDoneStatus();
+        return new PlanResponse(plan);
+    }
+
+    private void createPlanner(Member loggedInMember, Plan plan) {
+        if (plannerRepository.existsByMemberAndDate(loggedInMember, plan.getDate())) {
             return;
         }
 
-        Planner planner = new Planner(member, plan.getDate());
+        Planner planner = new Planner(loggedInMember, plan.getDate());
         plannerRepository.save(planner);
     }
 
@@ -95,4 +103,5 @@ public class PlanService {
             throw new DanggeunPlannerException(NOT_VALID_PLANNING_TIME);
         }
     }
+
 }

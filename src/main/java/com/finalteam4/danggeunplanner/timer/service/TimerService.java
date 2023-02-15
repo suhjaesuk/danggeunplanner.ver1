@@ -36,30 +36,30 @@ public class TimerService {
     private final MemberValidator memberValidator;
 
     @Transactional
-    public TimerStartResponse start(Member member, TimerStartRequest request) {
-        Timer timer = request.toTimer(member);
+    public TimerStartResponse startTimer(Member loggedInMember, TimerStartRequest request) {
+        Timer timer = request.toTimer(loggedInMember);
         timerRepository.save(timer);
         return new TimerStartResponse(timer);
     }
 
 
     @Transactional
-    public TimerResponse finish(Member member, Long timerId, TimerFinishRequest request) {
+    public TimerResponse finishTimer(Member loggedInMember, Long timerId, TimerFinishRequest request) {
         Timer timer = timerRepository.findById(timerId).orElseThrow(
                 () -> new DanggeunPlannerException(NOT_FOUND_TIMER)
         );
 
-        memberValidator.validateAccess(member, timer.getMember());
+        memberValidator.validateAccess(loggedInMember, timer.getMember());
 
-        timer.finish(request.getEndTime(), request.getCount());
-        deleteInactiveTimer(member);
+        timer.finish(request.getEndTime(), request.getCount()); //클라이언트와 count 를 continuousCount 로 바꾸자고 말해야함.
+        deleteInactiveTimer(loggedInMember);
 
-        createPlannerAndCalendarIfNotExists(member, timer);
+        createPlannerAndCalendarIfNotExists(loggedInMember, timer);
 
-        Planner planner = plannerRepository.findByMemberAndDate(member, TimeConverter.convertToPlannerDateForm(timer.getEndTime())).orElseThrow(
+        Planner planner = plannerRepository.findByMemberAndDate(loggedInMember, TimeConverter.convertToPlannerDateForm(timer.getEndTime())).orElseThrow(
                 () -> new DanggeunPlannerException(NOT_FOUND_PLANNER)
         );
-        Calendar calendar = calendarRepository.findByMemberAndDate(member, TimeConverter.convertToCalendarDateForm(timer.getEndTime())).orElseThrow(
+        Calendar calendar = calendarRepository.findByMemberAndDate(loggedInMember, TimeConverter.convertToCalendarDateForm(timer.getEndTime())).orElseThrow(
                 () -> new DanggeunPlannerException(NOT_FOUND_CALENDAR)
         );
 
@@ -72,11 +72,11 @@ public class TimerService {
         return new TimerResponse(timer);
     }
     @Transactional
-    public TimerResponse update(Member member, Long timerId, TimerUpdateRequest request) {
+    public TimerResponse updateTimer(Member loggedInMember, Long timerId, TimerUpdateRequest request) {
         Timer timer = timerRepository.findById(timerId).orElseThrow(
                 () -> new DanggeunPlannerException(NOT_FOUND_TIMER)
         );
-        memberValidator.validateAccess(member, timer.getMember());
+        memberValidator.validateAccess(loggedInMember, timer.getMember());
 
         timer.update(request.getContent());
         return new TimerResponse(timer);

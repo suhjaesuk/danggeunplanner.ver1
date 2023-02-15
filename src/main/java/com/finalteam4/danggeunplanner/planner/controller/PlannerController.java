@@ -24,14 +24,23 @@ public class PlannerController {
         PlannerResponse response = plannerService.getPlanner(userDetails.getMember(), username, date);
         return new ResponseEntity<>(new ResponseMessage<>("플래너 전체 조회 성공", response), HttpStatus.OK);
     }
+
     @GetMapping("{username}/{date}/plan")
     public ResponseEntity<ResponseMessage<PlannerResponse>> getPlan (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String username, @PathVariable String date){
         PlannerResponse response = plannerService.getPlan(userDetails.getMember(), username, date);
         return new ResponseEntity<>(new ResponseMessage<>("플래너 계획 조회 성공", response), HttpStatus.OK);
     }
+
     @GetMapping("{username}/{date}/timer")
     public ResponseEntity<ResponseMessage<PlannerResponse>> getTimer (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String username, @PathVariable String date){
         PlannerResponse response = plannerService.getTimer(userDetails.getMember(), username, date);
         return new ResponseEntity<>(new ResponseMessage<>("플래너 타이머 조회 성공", response), HttpStatus.OK);
     }
+
+    @GetMapping("{username}/{date}/plan/done")
+    public ResponseEntity<ResponseMessage<PlannerResponse>> getFinishedPlan (@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String username, @PathVariable String date){
+        PlannerResponse response = plannerService.getFinishedPlan(userDetails.getMember(), username, date);
+        return new ResponseEntity<>(new ResponseMessage<>("플래너 완료된 계획 조회 성공", response), HttpStatus.OK);
+    }
+
 }
