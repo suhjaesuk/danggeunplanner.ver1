@@ -136,7 +136,7 @@ public class MemberService {
         Integer totalCarrot = 0;
 
         for(Timer timer : timers){
-            totalCarrot += timer.getCount();
+            totalCarrot += timer.getContinuousCount();
         }
         return new MemberMyPageResponse(member, totalCarrot);
     }
