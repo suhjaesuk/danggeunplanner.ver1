@@ -24,4 +24,9 @@ public class TimerStartRequest {
                 .isFinish(false)
                 .build();
     }
+
+    //테스트 코드를 위한 set
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
 }
