@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableAsync
-@PropertySource("classpath:application-mysql.properties")
+@PropertySource("classpath:application-h2.properties")
 public class DanggeunplannerApplication {
     @PostConstruct
     public void setUp() {
