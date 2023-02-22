@@ -15,7 +15,14 @@ public class TimerFinishRequest {
     private LocalDateTime endTime;
 
     @NotNull(message = "연속 횟수를 알려주세요.", groups = ValidationGroups.SecondNotNullGroup.class)
-    //클라이언트와 continuousCount로 바꾸자고 말맞춰야함.
-    private Integer count;
+    private Integer count; //클라이언트와 continuousCount로 바꾸자고 말맞춰야함.
 
+    //TimerService 테스트를 위한 Set
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

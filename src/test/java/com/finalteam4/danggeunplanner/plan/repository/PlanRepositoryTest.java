@@ -1,4 +1,4 @@
-package com.finalteam4.danggeunplanner.plan.domain;
+package com.finalteam4.danggeunplanner.plan.repository;
 
 import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.member.entity.Member;
@@ -105,12 +105,4 @@ public class PlanRepositoryTest {
         assertThat(startTime).isEqualTo(planPersistence.getStartTime());
 
     }
-    //계획 수정
-    @Test
-    @DisplayName("계획 수정")
-    public void updatePlan(){
-    }
-
-
-    //계획 삭제
 }

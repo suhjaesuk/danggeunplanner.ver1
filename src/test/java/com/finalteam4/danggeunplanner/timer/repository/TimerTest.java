@@ -1,7 +1,8 @@
-package com.finalteam4.danggeunplanner.timer.entity;
+package com.finalteam4.danggeunplanner.timer.repository;
 
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.member.repository.MemberRepository;
+import com.finalteam4.danggeunplanner.timer.entity.Timer;
 import com.finalteam4.danggeunplanner.timer.repository.TimerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
