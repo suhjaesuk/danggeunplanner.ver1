@@ -18,8 +18,8 @@ public class CalendarController {
     private final CalendarService calendarService;
 
     @GetMapping("/{username}/{date}")
-    public ResponseEntity<ResponseMessage<CalendarResponse>> findCalendar(@PathVariable String username, @PathVariable String date){
-        CalendarResponse response = calendarService.findCalendar(username, date);
+    public ResponseEntity<ResponseMessage<CalendarResponse>> getCalendar(@PathVariable String username, @PathVariable String date){
+        CalendarResponse response = calendarService.getCalendar(username, date);
         return new ResponseEntity<>(new ResponseMessage<>("캘린더 조회 성공",response), HttpStatus.OK);
     }
 }

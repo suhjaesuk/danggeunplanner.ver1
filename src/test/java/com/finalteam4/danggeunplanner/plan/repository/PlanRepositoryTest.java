@@ -57,7 +57,6 @@ public class PlanRepositoryTest {
                 .date(date)
                 .content(content)
                 .member(memberPersistence)
-                .planner(plannerPersistence)
                 .build();
 
         Plan planPersistence = planRepository.save(plan);
@@ -98,7 +97,6 @@ public class PlanRepositoryTest {
                 .date(date)
                 .content(content)
                 .member(memberPersistence)
-                .planner(plannerPersistence)
                 .build();
 
         Plan planPersistence = planRepository.save(plan);

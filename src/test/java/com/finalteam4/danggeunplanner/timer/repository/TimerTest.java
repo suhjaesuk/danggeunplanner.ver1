@@ -22,9 +22,9 @@ class TimerTest {
     @Autowired
     private TimerRepository timerRepository;
 
-
     @BeforeEach
     public void setUp(){
+
         String email = "test@gmail.com";
         String password = "test1234!";
         String username = "test";
@@ -109,12 +109,12 @@ class TimerTest {
         assertThat(timerPersistence.getEndTime()).isEqualTo(endTime);
         assertThat(timerPersistence.getContinuousCount()).isEqualTo(continuousCount);
         assertThat(timerPersistence.getIsFinish()).isEqualTo(isFinish);
-
     }
 
     @Test
     @Sql("classpath:db/tableinit.sql")
     public void updateTimerTest() {
+
         //given
         String content = "update content";
 
