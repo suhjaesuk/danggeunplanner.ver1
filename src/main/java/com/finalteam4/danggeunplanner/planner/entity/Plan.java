@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Entity
 public class Plan {
     @Id
@@ -47,10 +45,21 @@ public class Plan {
     @JoinColumn(name="planner_id")
     private Planner planner;
 
+    @Builder
+    public Plan(String date, LocalDateTime startTime, LocalDateTime endTime, String content, Boolean isFinished, Member member){
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.content = content;
+        this.isFinished = isFinished;
+        this.member = member;
+    }
+
     public void confirmPlanner(Planner planner){
         this.planner = planner;
         planner.addPlan(this);
     }
+
 
     public void updateContent(LocalDateTime startTime, LocalDateTime endTime, String content){
         this.startTime = startTime;
@@ -59,7 +68,7 @@ public class Plan {
     }
 
     public boolean isStartTimeAndEndTimeSameDate(){
-        return TimeConverter.convertToPlannerDateForm(startTime).equals(TimeConverter.convertToPlannerDateForm(endTime));
+        return !TimeConverter.convertToPlannerDateForm(startTime).equals(TimeConverter.convertToPlannerDateForm(endTime));
     }
 
     public boolean isEndTimeLessThanStartTime(){
