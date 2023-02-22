@@ -1,6 +1,7 @@
 package com.finalteam4.danggeunplanner.planner.service;
 
 import com.finalteam4.danggeunplanner.common.exception.DanggeunPlannerException;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.member.service.MemberValidator;
 import com.finalteam4.danggeunplanner.planner.dto.request.PlanRequest;
@@ -35,9 +36,10 @@ public class PlanService {
 
         planRepository.save(plan);
 
+        validateExistByMemberAndDate(loggedInMember, plan);
         createPlanner(loggedInMember, plan);
-        Planner planner = findPlannerForMemberAndDate(loggedInMember, plan.getDate());
 
+        Planner planner = findPlannerForMemberAndDate(loggedInMember, plan.getDate());
         plan.confirmPlanner(planner);
 
         return new PlanResponse(plan);
@@ -73,12 +75,13 @@ public class PlanService {
         return new PlanResponse(plan);
     }
 
-    private void createPlanner(Member loggedInMember, Plan plan) {
-        if (plannerRepository.existsByMemberAndDate(loggedInMember, plan.getDate())) {
-            return;
+    private void validateExistByMemberAndDate(Member member, Plan plan){
+        if(!plannerRepository.existsByMemberAndDate(member, plan.getDate())){
+            throw new DanggeunPlannerException(NOT_FOUND_PLANNER);
         }
-
-        Planner planner = new Planner(loggedInMember, plan.getDate());
+    }
+    private void createPlanner(Member member, Plan plan) {
+        Planner planner = new Planner(member, plan.getDate());
         plannerRepository.save(planner);
     }
 
