@@ -5,6 +5,7 @@ import com.finalteam4.danggeunplanner.calendar.dto.response.ColorStageResponse;
 import com.finalteam4.danggeunplanner.calendar.entity.Calendar;
 import com.finalteam4.danggeunplanner.calendar.repository.CalendarRepository;
 import com.finalteam4.danggeunplanner.common.exception.DanggeunPlannerException;
+import com.finalteam4.danggeunplanner.common.util.TimeConverter;
 import com.finalteam4.danggeunplanner.member.entity.Member;
 import com.finalteam4.danggeunplanner.member.repository.MemberRepository;
 import com.finalteam4.danggeunplanner.planner.entity.Planner;
@@ -26,7 +27,7 @@ public class CalendarService {
     private final CalendarRepository calendarRepository;
     private final MemberRepository memberRepository;
 
-    public CalendarResponse findCalendar(String username, String date) {
+    public CalendarResponse getCalendar(String username, String date) {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new DanggeunPlannerException(NOT_FOUND_MEMBER));
 
